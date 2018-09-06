@@ -1,0 +1,30 @@
+{
+  "variables": {
+    "do_token": ""
+  },
+  "builders": [
+    {
+      "droplet_name": "consul",
+      "snapshot_name": "consul",
+      "type": "digitalocean",
+      "ssh_username": "root",
+      "api_token": "{{ user `do_token` }}",
+      "image": "ubuntu-18-04-x64",
+      "region": "lon1",
+      "size": "512mb"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/consul.service",
+      "destination": "/etc/systemd/system/consul.service"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/install_consul.sh"
+      ]
+    }
+  ]
+}
